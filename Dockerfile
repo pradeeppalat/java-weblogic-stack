@@ -41,7 +41,7 @@ RUN yum -y update && \
     --header "Cookie: oraclelicense=accept-securebackup-cookie" \
     -qO - \
    "http://download.oracle.com/otn-pub/java/jdk/$JAVA_VERSION_WS_AGENT-b17/jre-$JAVA_VERSION_WS_AGENT-linux-x64.tar.gz" | tar -zx -C /opt/ && \
-    echo "#! /bin/bash\n set -e\n sudo /usr/sbin/sshd -D &\n exec \"\$@\"" > /home/user/entrypoint.sh && chmod a+x /home/user/entrypoint.sh
+    echo -e "#! /bin/bash\n set -e\n sudo /usr/sbin/sshd -D &\n exec \"\$@\"" > /home/user/entrypoint.sh && chmod a+x /home/user/entrypoint.sh
 
 # Go to /home/user as user 'user' to proceed with installation
 # ------------------------------------------------------------
