@@ -54,9 +54,10 @@ USER user
 
 LABEL che:server:8080:ref=tomcat8 che:server:8080:protocol=http che:server:8000:ref=tomcat8-debug che:server:8000:protocol=http
 
-# Copy configuration file
+# Copy package
 # -------------------------------------
 COPY $SILENT_XML /home/user/
+COPY $WLS_PKG /home/user/
 
 # Install Oracle JDK 7
 # -------------------------------------
@@ -75,23 +76,15 @@ RUN mkdir /home/user/apache-maven-$MAVEN_VERSION && \
 
 # Install Weblogic
 # -------------------------------------
-#RUN wget \
-#    --no-cookies \
-#    --no-check-certificate \
-#    --header "Cookie: oraclelicense=accept-securebackup-cookie" \
-#    -q \
-#    "http://download.oracle.com/otn/nt/middleware/11g/wls/1036/wls1036_generic.jar" \
-#    -O /u01/$WLS_PKG
-#RUN java -jar $WLS_PKG -mode=silent -silent_xml=$SILENT_XML && \
-#    rm $WLS_PKG $SILENT_XML
-#RUN ln -s /home/user/weblogic/wlserver_10.3 /home/user/weblogic/wlserver
+RUN java -jar $WLS_PKG -mode=silent -silent_xml=$SILENT_XML && \
+    rm $WLS_PKG $SILENT_XML
+RUN ln -s /home/user/weblogic/wlserver_10.3 /home/user/weblogic/wlserver
 
-#ENV PATH $PATH:/home/user/weblogic/oracle_common/common/bin
+ENV PATH $PATH:/home/user/weblogic/oracle_common/common/bin
 
-# Configure weblogic
+# Set Weblogic environment
 # -------------------------------------
-# RUN cd /home/user/weblogic/wlserver/server/bin && ./setWLSenv.sh && \
-#     cd /home/user/weblogic/wlserver/common/bin && ./config.sh mode=console
+RUN cd $MW_HOME/wlserver/server/bin && ./setWLSEnv.sh
 
 # Define default command to start bash
 # -------------------------------------
