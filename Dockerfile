@@ -42,7 +42,10 @@ RUN yum -y update && \
     --header "Cookie: oraclelicense=accept-securebackup-cookie" \
     -qO - \
    "http://download.oracle.com/otn-pub/java/jdk/$JAVA_VERSION_WS_AGENT-b17/jre-$JAVA_VERSION_WS_AGENT-linux-x64.tar.gz" | tar -zx -C /opt/ && \
-    echo -e "#! /bin/bash\n set -e\n sudo /usr/sbin/sshd -D &\n exec \"\$@\"" > /home/user/entrypoint.sh && chmod a+x /home/user/entrypoint.sh
+    echo -e "#! /bin/bash\nset -e\n" > /home/user/entrypoint.sh && \
+    echo -e "sudo /usr/bin/ssh-keygen -q -N \"\" -t rsa -f /etc/ssh/ssh_host_rsa_key\nsudo /usr/bin/ssh-keygen -q -N \"\" -t dsa -f /etc/ssh/ssh_host_dsa_key\nsudo /usr/bin/ssh-keygen -q -N \"\" -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key\n" >> /home/user/entrypoint.sh && \
+    echo -e "sudo /usr/sbin/sshd -D &\nexec \"\$@\"\n" >> /home/user/entrypoint.sh && \
+    chmod a+x /home/user/entrypoint.sh
 
 # Go to /home/user as user 'user' to proceed with installation
 # ------------------------------------------------------------
