@@ -22,9 +22,9 @@ ENV JAVA_VERSION_WS_AGENT=8u65
 ENV TERM xterm
 ENV LANG C.UTF-8
 
-# Needed for Codenvy workspace
-# -------------------------------------
-EXPOSE 4403 8080 8000 22
+# Needed for Codenvy workspace + Weblogic
+# ---------------------------------------
+EXPOSE 4403 8080 8000 22 7001
 
 # Create user and install utilities for Codenvy workspace
 # -------------------------------------------------------
