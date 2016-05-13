@@ -20,6 +20,7 @@ ENV PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
 ENV JAVA_VERSION_WS_AGENT=8u65
 
 ENV TERM xterm
+ENV LANG C.UTF-8
 
 # Needed for Codenvy workspace
 # -------------------------------------
@@ -91,8 +92,6 @@ RUN mkdir /home/user/apache-maven-$MAVEN_VERSION && \
 
 # Define default command to start bash
 # -------------------------------------
-#CMD ["/bin/bash"]
-
 ENTRYPOINT ["/home/user/entrypoint.sh"]
 
 CMD tail -f /dev/null
