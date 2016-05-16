@@ -18,7 +18,7 @@ ENV MAVEN_VERSION=3.2.5
 ENV M2_HOME=/home/user/apache-maven-$MAVEN_VERSION
 ENV PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
 
-ENV JAVA_VERSION_WS_AGENT=8u65
+ENV JAVA_VERSION_WS_AGENT=8u65-b17
 
 ENV TERM xterm
 ENV LANG C.UTF-8
@@ -42,7 +42,7 @@ RUN yum -y update && \
     --no-check-certificate \
     --header "Cookie: oraclelicense=accept-securebackup-cookie" \
     -qO - \
-   "http://download.oracle.com/otn-pub/java/jdk/$JAVA_VERSION_WS_AGENT-b17/jre-$JAVA_VERSION_WS_AGENT-linux-x64.tar.gz" | tar -zx -C /opt/ && \
+   "http://download.oracle.com/otn-pub/java/jdk/$JAVA_VERSION_WS_AGENT/jre-$JAVA_VERSION_WS_AGENT-linux-x64.tar.gz" | tar -zx -C /opt/ && \
     echo -e "#! /bin/bash\nset -e\n" > /home/user/entrypoint.sh && \
     echo -e "sudo /usr/bin/ssh-keygen -q -N \"\" -t rsa -f /etc/ssh/ssh_host_rsa_key\nsudo /usr/bin/ssh-keygen -q -N \"\" -t dsa -f /etc/ssh/ssh_host_dsa_key\nsudo /usr/bin/ssh-keygen -q -N \"\" -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key\n" >> /home/user/entrypoint.sh && \
     echo -e "sudo /usr/sbin/sshd -D &\nexec \"\$@\"\n" >> /home/user/entrypoint.sh && \
