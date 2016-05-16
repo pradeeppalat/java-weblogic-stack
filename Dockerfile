@@ -86,6 +86,13 @@ ENV PATH $PATH:/home/user/weblogic/oracle_common/common/bin
 # -------------------------------------
 RUN cd $MW_HOME/wlserver/server/bin && ./setWLSEnv.sh
 
+# Cache Maven dependencies of a given project (EXAMPLE with console-java-simple)
+# ------------------------------------------------------------------------------
+RUN mkdir /tmp/console-java-simple && \
+    cd /tmp/console-java-simple && \
+    svn checkout https://github.com/stour/console-java-simple/trunk . && \
+    mvn dependency:sources
+
 # Define default command to start bash
 # -------------------------------------
 ENTRYPOINT ["/home/user/entrypoint.sh"]
