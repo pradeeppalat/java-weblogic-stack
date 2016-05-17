@@ -49,6 +49,17 @@ RUN yum -y update && \
     echo -e "sudo /usr/sbin/sshd -D &\nexec \"\$@\"\n" >> /home/user/entrypoint.sh && \
     chmod a+x /home/user/entrypoint.sh
 
+# Install Oracle JDK 6
+# -------------------------------------
+RUN wget \
+    --no-cookies \
+    --no-check-certificate \
+    --header "Cookie: oraclelicense=accept-securebackup-cookie" \
+    -qO /opt/$JDK_ARCHIVE "http://download.oracle.com/otn-pub/java/jdk/$JDK_VERSION/$JDK_ARCHIVE" && \
+    chmod u+x /opt/$JDK_ARCHIVE && \
+    cd /opt/ && ./$JDK_ARCHIVE && \
+    rm /opt/$JDK_ARCHIVE
+
 # Go to /home/user as user 'user' to proceed with installation
 # ------------------------------------------------------------
 WORKDIR /home/user
@@ -60,18 +71,6 @@ LABEL che:server:8080:ref=tomcat8 che:server:8080:protocol=http che:server:8000:
 # -------------------------------------
 COPY $SILENT_XML /home/user/
 COPY $WLS_PKG /home/user/
-
-# Install Oracle JDK 6
-# -------------------------------------
-RUN wget \
-    --no-cookies \
-    --no-check-certificate \
-    --header "Cookie: oraclelicense=accept-securebackup-cookie" \
-    -q "http://download.oracle.com/otn-pub/java/jdk/$JDK_VERSION/$JDK_ARCHIVE"
-    -P /opt/ && \
-    chmod u+x /opt/$JDK_ARCHIVE && \
-    cd /opt/ && ./$JDK_ARCHIVE && \
-    rm /opt/$JDK_ARCHIVE
 
 # Install Maven
 # -------------------------------------
