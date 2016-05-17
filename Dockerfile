@@ -2,9 +2,9 @@ FROM oraclelinux:6
 
 # Environment variables required for Java and Weblogic
 # ----------------------------------------------------
-ENV JDK_VERSION 7u80-b15
-ENV JDK_ARCHIVE jdk-7u80-linux-x64.tar.gz
-ENV JAVA_HOME /opt/jdk1.7.0_80
+ENV JDK_VERSION 6u45-b06
+ENV JDK_ARCHIVE jdk-6u45-linux-x64.bin
+ENV JAVA_HOME /opt/jdk1.6.0_45
 ENV CONFIG_JVM_ARGS -Djava.security.egd=file:/dev/./urandom
 
 ENV WLS_PKG wls1036_generic.jar
@@ -61,14 +61,17 @@ LABEL che:server:8080:ref=tomcat8 che:server:8080:protocol=http che:server:8000:
 COPY $SILENT_XML /home/user/
 COPY $WLS_PKG /home/user/
 
-# Install Oracle JDK 7
+# Install Oracle JDK 6
 # -------------------------------------
 RUN wget \
     --no-cookies \
     --no-check-certificate \
     --header "Cookie: oraclelicense=accept-securebackup-cookie" \
-    -qO - \
-    "http://download.oracle.com/otn-pub/java/jdk/$JDK_VERSION/$JDK_ARCHIVE" | sudo tar -zx -C /opt/
+    -q "http://download.oracle.com/otn-pub/java/jdk/$JDK_VERSION/$JDK_ARCHIVE"
+    -P /opt/ && \
+    chmod u+x /opt/$JDK_ARCHIVE && \
+    cd /opt/ && ./$JDK_ARCHIVE && \
+    rm /opt/$JDK_ARCHIVE
 
 # Install Maven
 # -------------------------------------
