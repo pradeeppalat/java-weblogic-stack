@@ -73,7 +73,7 @@ RUN wget \
 # Install Maven
 # -------------------------------------
 RUN mkdir /home/user/apache-maven-$MAVEN_VERSION && \
-    wget -qO - "http://apache.ip-connect.vn.ua/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz" \
+    wget -qO - "http://mirror.olnevhost.net/pub/apache/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz" \
     | tar -zx --strip-components=1 -C /home/user/apache-maven-$MAVEN_VERSION
 
 # Install Weblogic
